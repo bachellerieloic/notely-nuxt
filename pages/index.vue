@@ -16,6 +16,7 @@
         {{ todos }}
       </card>
     </div>
+    <b-table :data="todos" :columns="columns" class="column is-full" />
   </section>
 </template>
 
@@ -32,15 +33,20 @@ export default {
     return {
       checkbox: false,
       checkboxCustom: 'Yes',
-      todos: []
+      todos: [],
+      columns: [
+        { field: 'id', label: 'ID', width: '20', numeric: true },
+        { field: 'title', label: 'title', width: '40', numeric: true },
+        { field: 'desc', label: 'description', width: '40', numeric: true },
+        { field: 'isComplete', label: 'Completed', width: '40', numeric: true }
+      ]
     }
   },
   methods: {
     fetchTodos () {
       this.$axios.get('/todos')
         .then((response) => {
-          console.log(response)
-          this.todos = Parse.esponse.data
+          this.todos = response.data
         })
     }
   }
