@@ -1,6 +1,6 @@
-# notely
+# Notely
 
-> Notely App
+> Notely - Nuxt App using Buefy
 
 ## Build Setup
 
