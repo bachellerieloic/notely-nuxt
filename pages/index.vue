@@ -16,12 +16,22 @@
         {{ todos }}
       </card>
     </div>
-    <b-table :data="todos" :columns="columns" class="column is-full" >
+    <b-table :data="todos" :columns="columns" class="column is-full">
       <template slot-scope="props">
-        <b-table-column field="actions" label="Actions" width="40">
-          {{ props.row.title }}
-          <b-button @click="todos = []">
-            Reset
+        <b-table-column field="title" label="title" centered>
+          <span>{{ props.row.title }}</span>
+        </b-table-column>
+        <b-table-column field="desc" label="Description" centered>
+          <span>{{ props.row.desc }}</span>
+        </b-table-column>
+        <b-table-column field="isComplete" label="Completed" centered>
+          <span :class="getIsComplete(props.row.isComplete)">
+            {{ props.row.isComplete }}
+          </span>
+        </b-table-column>
+        <b-table-column field="action" label="Action" centered>
+          <b-button class="tag is-success" @click="deleteTodo(props.row.id)">
+            Delete
           </b-button>
         </b-table-column>
       </template>
@@ -44,11 +54,6 @@ export default {
       checkboxCustom: 'Yes',
       todos: [],
       columns: [
-        { field: 'id', label: 'ID', width: '20', numeric: true },
-        { field: 'title', label: 'title', width: '40', numeric: true },
-        { field: 'desc', label: 'description', width: '40', numeric: true },
-        { field: 'isComplete', label: 'Completed', width: '40', numeric: true },
-        { field: 'actions', label: 'Actions', width: '40', numeric: false }
       ]
     }
   },
@@ -59,12 +64,14 @@ export default {
           this.todos = response.data
         })
     },
-    delete(id) {
-      this.$axios.delete('/todos', id)
+    deleteTodo (todoId) {
+      this.$axios.delete('/todos', { data: { id: todoId } })
         .then((response) => {
-          console.log(response)
           this.todos = response.data
-        });
+        })
+    },
+    getIsComplete (isComplete) {
+      return isComplete ? 'tag is-success' : 'tag is-danger'
     }
   }
 }
