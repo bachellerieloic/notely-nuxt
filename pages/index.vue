@@ -5,8 +5,8 @@
         title="Fetch"
         icon="github-circle"
       >
-        <b-button @click="fetchTodos">
-          Click Me
+        <b-button @click="fetchTodos" :loading="loadingGetTodos">
+          Get Todos
         </b-button>
         <b-button @click="todos = []">
           Reset
@@ -50,6 +50,7 @@ export default {
   },
   data () {
     return {
+      loadingGetTodos: false,
       checkbox: false,
       checkboxCustom: 'Yes',
       todos: [],
@@ -59,8 +60,10 @@ export default {
   },
   methods: {
     fetchTodos () {
+      this.loadingGetTodos = true
       this.$axios.get('/todos')
         .then((response) => {
+          this.loadingGetTodos = false
           this.todos = response.data
         })
     },
