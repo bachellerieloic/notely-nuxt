@@ -51,7 +51,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'https://loopback-io.herokuapp.com'
+    // baseURL: 'https://loopback-io.herokuapp.com'
+    baseURL: 'http://localhost:3000'
   },
   /*
   ** Build configuration
