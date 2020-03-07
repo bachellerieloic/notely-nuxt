@@ -101,6 +101,9 @@ export default {
         })
     },
     saveTodo () {
+      if (!this.validate()) {
+        return false
+      }
       this.loadingSaveTodo = true
       this.$axios.post('/todos', this.todoForm)
         .then((response) => {
@@ -116,6 +119,9 @@ export default {
     },
     getIsComplete (isComplete) {
       return isComplete ? 'tag is-success' : 'tag is-danger'
+    },
+    validate () {
+      return !(this.todoForm.title.length === 0 && this.todoForm.desc.length === 0)
     }
   }
 }
